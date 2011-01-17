@@ -73,7 +73,6 @@ def get(url):
 
 for n_path in nautilus_path:
   fling_path = base_location+n_path.replace(base_uri, '').rstrip()
-  #os.popen("zenity --info --text="+"*".join(nautilus_path))
   result = fling(fling_path, port, file_name, "Flung from Nautilus")
   pynotify.init("Fling Info")
   n = pynotify.Notification("Fling Result",result+"\n"+fling_path,"stock_internet")
