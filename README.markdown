@@ -1,4 +1,4 @@
-A [nautilus-script](https://help.ubuntu.com/community/NautilusScriptsHowto) that enables Nautilus to "fling" video to a [Flingo](http://flingo.org) enabled device.
+A [nautilus-script](https://help.ubuntu.com/community/NautilusScriptsHowto) that enables Nautilus to "fling" video to a [Flingo](http://flingo.org) enabled device, such as Vizio televisions or the Western Digital TV Live Hub.
 
 #Prerequisites
  - You will need a web server that has access to your media repository.
