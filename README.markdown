@@ -5,7 +5,8 @@ A [nautilus-script](https://help.ubuntu.com/community/NautilusScriptsHowto) that
  - pynotify
 
 #Installation
-- Clone this repo and copy the "Fling to Device" script into your ~/.gnome2/nautilus-scripts directory.
+- Clone this repo 
+- Copy the "Fling to Device" script into your ~/.gnome2/nautilus-scripts directory.
 - Edit the script changing...
     - host = "SOMELOCALHOST" <-This is the IP address or host name of the local machine hosing your media files.
     - port = 80 <- This is the port of the web server hosting your media files.
