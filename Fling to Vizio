@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+import os, sys
+import httplib
+import pynotify
+from urlparse import urlparse
+from urllib import quote
+
+host = "dufus.lan"
+port = 80
+base_uri = "file:///home/share/media/"
+path = "movies"
+nautilus_path = os.environ["NAUTILUS_SCRIPT_SELECTED_URIS"].splitlines()
+file_name = sys.argv[1]
+
+def fling( path, port=port, title=None, description=None ):
+  if type(port) == str:
+    port = int(port)
+
+  if not title:
+    title = fname
+
+  url = "http://%s:%d/%s" % ( host, port, path )
+
+  print "title:",title
+  print "description:", description
+  print "url:", url
+
+  fling_url = "http://flingo.tv/fling/fling?%s" % (
+    "title=%s&description=%s&url=%s&version=%s"%(
+    quote(title), quote(description), quote(url), "1.0.12" ))
+
+  print "fling_url:", fling_url
+  result = get(fling_url)
+
+  return result
+
+
+# pulls down resource from given URL and returns the response body as a string.
+def get(url):
+  (scheme, netloc, path, pars, query, fragment) = urlparse(url)
+  lst = netloc.split(":")
+  if len(lst) == 2:
+    host, port = lst
+  else:
+    host, port = lst[0], 80
+
+  conn = httplib.HTTPConnection(netloc, port)
+
+  # http://foo.com/a/b/c?do=blah&po=fa --> /foo.com/a/b/c?do=blah&po=fa
+  long_path = "/" + "/".join(url.split("/")[3:])
+  conn.request("GET", long_path )
+
+  r = conn.getresponse()
+  if r.status != 200:
+    raise Exception( "** fling encountered error. returned status: %s %s" % (
+      r.status, r.reason ))
+  data = r.read()
+  return data
+
+for n_path in nautilus_path:
+  fling_path = n_path.replace(base_uri, '').rstrip()
+  #os.popen("zenity --info --text="+"*".join(nautilus_path))
+  result = fling(fling_path, port, file_name, "Flung from Nautilus")
+  pynotify.init("Fling Info")
+  n = pynotify.Notification("Fling Result",result+"\n"+fling_path,"stock_internet")
+  n.show()
